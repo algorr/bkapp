@@ -1,3 +1,5 @@
+import 'package:bkapp/core/extensions/size_extension.dart';
+import 'package:bkapp/product/view/user_detail_view.dart';
 import 'package:bkapp/product/viewmodel/user_data/user_data_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,26 +61,7 @@ class _HomeViewState extends State<HomeView> {
               return ListView.builder(
                   itemCount: state.users.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(
-                            height: 80,
-                            width: 80,
-                            child: Image.network('${state.users[index].avatar}')),
-                        Column(
-                          children: [
-                            Text(
-                                '${state.users[index].name} ${state.users[index].surname} ?? '),
-                            Text(state.users[index].email ?? ''),
-                            Text(state.users[index].phone ?? ''),
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.next_plan))
-                      ],
-                    ));
+                    return _singleCardWidget(context, state, index);
                   });
             default:
               return const Center(
@@ -89,6 +72,60 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-}
 
-//title: Text('${userList?[index].name} ${userList?[index].surname} ?? '),
+// single card design
+  Card _singleCardWidget(BuildContext context, UserDataState state, int index) {
+    return Card(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 2,
+          child: _circleAvatarWidget(context, state, index),
+        ),
+        Expanded(
+          flex: 4,
+          child: _userInfoColumn(state, index),
+        ),
+        Expanded(
+          flex: 1,
+          child: _detialViewButton( state,  index),
+        )
+      ],
+    ));
+  }
+
+// circle avatar for user avatar
+  SizedBox _circleAvatarWidget(
+      BuildContext context, UserDataState state, int index) {
+    return SizedBox(
+        height: context.dynamicWidth(.2),
+        width: context.dynamicWidth(.1),
+        child: CircleAvatar(
+            backgroundImage: NetworkImage('${state.users[index].avatar}')));
+  }
+
+// user infos widget
+  Column _userInfoColumn(UserDataState state, int index) {
+    return Column(
+      children: [
+        Text('${state.users[index].name} ${state.users[index].surname}'),
+        Text(state.users[index].email ?? ''),
+        Text(state.users[index].phone ?? ''),
+      ],
+    );
+  }
+
+// button for detail view
+  IconButton _detialViewButton(UserDataState state, int index) {
+    return IconButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => UserDetailView(
+                    user: state.users[index],
+                  )));
+        },
+        icon: const Icon(Icons.next_plan));
+  }
+}

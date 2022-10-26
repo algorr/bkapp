@@ -12,7 +12,6 @@ class MockService {
       if (response.statusCode == HttpStatus.ok && response.body.isNotEmpty) {
         var body = json.decode(response.body) as List;   
         var userList = body.map((e) => User.fromJson(e)).toList();
-        print(userList.first.avatar);
         return userList;
       }
     }  on FetchErrorException catch(error) {
