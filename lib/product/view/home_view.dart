@@ -1,4 +1,5 @@
 import 'package:bkapp/core/extensions/size_extension.dart';
+import 'package:bkapp/product/consts/page_consts.dart';
 import 'package:bkapp/product/view/user_detail_view.dart';
 import 'package:bkapp/product/viewmodel/user_data/user_data_bloc.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,14 @@ class _HomeViewState extends State<HomeView> {
       ..dispose();
   }
 
+// function of getting scroll position
   void _onScroll() {
     if (_didArrivedBottom) {
       context.read<UserDataBloc>().add(const UserDataFetchEvent());
     }
   }
 
+// position argument of page
   bool get _didArrivedBottom {
     if (!_scrollController.hasClients) {
       return false;
@@ -54,16 +57,18 @@ class _HomeViewState extends State<HomeView> {
         builder: (context, state) {
           switch (state.status) {
             case FetchStatus.failure:
-              return const Center(
-                child: Text('Oopppsss!'),
+              return Center(
+                child: Text(HomeViewConsts.userStatusFailureMessage),
               );
             case FetchStatus.success:
               return ListView.builder(
-                  itemCount: state.users.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                        child: _userInfosRowContainerWidget(context, state, index));
-                  });
+                itemCount: state.users.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                      child:
+                          _userInfosRowContainerWidget(context, state, index));
+                },
+              );
             default:
               return const Center(
                 child: CircularProgressIndicator(),
@@ -74,50 +79,58 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Row _userInfosRowContainerWidget(BuildContext context, UserDataState state, int index) {
+// main widget of user infos
+  Row _userInfosRowContainerWidget(
+      BuildContext context, UserDataState state, int index) {
     return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: SizedBox(
-                            height: context.dynamicWidth(.2),
-                            width: context.dynamicWidth(.1),
-                            child:
-                                _userInfoAvatarWidget(state, index)),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: _userInfoColumn(state, index),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: _detialViewButton(state,index),
-                      )
-                    ],
-                  );
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 2,
+          child: SizedBox(
+              height: context.dynamicWidth(.2),
+              width: context.dynamicWidth(.1),
+              child: _userInfoAvatarWidget(state, index)),
+        ),
+        Expanded(
+          flex: 4,
+          child: _userInfoColumn(state, index),
+        ),
+        Expanded(
+          flex: 1,
+          child: _detialViewButton(state, index),
+        )
+      ],
+    );
   }
 
-  CircleAvatar _userInfoAvatarWidget(UserDataState state, int index) => CircleAvatar(backgroundImage: NetworkImage('${state.users[index].avatar}'));
+// circle avatar of user_avatar
+  CircleAvatar _userInfoAvatarWidget(UserDataState state, int index) =>
+      CircleAvatar(
+          backgroundImage: NetworkImage('${state.users[index].avatar}'));
 
+// column widget of user main infos
   Column _userInfoColumn(UserDataState state, int index) {
     return Column(
-                          children: [
-                            Text(
-                                '${state.users[index].name} ${state.users[index].surname}',style: Theme.of(context).textTheme.copyWith().headline6,),
-                            Text(state.users[index].email ?? ''),
-                            Text(state.users[index].phone ?? ''),
-                          ],
-                        );
+      children: [
+        Text(
+          '${state.users[index].name} ${state.users[index].surname}',
+          style: Theme.of(context).textTheme.copyWith().headline6,
+        ),
+        Text(state.users[index].email ?? ''),
+        Text(state.users[index].phone ?? ''),
+      ],
+    );
   }
 
+// button for getting detail_view
   IconButton _detialViewButton(UserDataState state, int index) {
     return IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> UserDetailView(user: state.users[index])));
-                            }, icon: const Icon(Icons.next_plan));
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => UserDetailView(user: state.users[index])));
+        },
+        icon: const Icon(Icons.next_plan));
   }
 }
-
-

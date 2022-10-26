@@ -44,8 +44,10 @@ class UserDetailView extends StatelessWidget {
     );
   }
 
+//fake static String for dummy data
   Text _userInfoTextWidget() => const Text(UserInfo.userInfo);
 
+// user info column widget for detail_view
   Column _userInfoColumnWidget(context) {
     return Column(
       children: [
@@ -56,6 +58,7 @@ class UserDetailView extends StatelessWidget {
     );
   }
 
+// user info circle avatar widget for detail_view
   CircleAvatar _userAvatarWidget(BuildContext context) {
     return CircleAvatar(
       backgroundImage: NetworkImage(user.avatar ?? ''),

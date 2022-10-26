@@ -5,6 +5,8 @@ import 'package:bkapp/domain/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class MockService {
+
+  // Service Function for fecthing data from api 
   Future<List<User>?> fetchUsers() async {
     String baseUrl = "https://63581a57c27556d289375077.mockapi.io/api/v1/users";
     try {

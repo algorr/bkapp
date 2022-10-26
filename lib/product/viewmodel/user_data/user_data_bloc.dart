@@ -12,9 +12,11 @@ part 'user_data_state.dart';
 class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   final MockApiRepository _repository;
   UserDataBloc(this._repository) : super(const UserDataState()) {
+    //onUserDataFetchEvent func 
     on<UserDataFetchEvent>(_onUserDataFetch);
   }
 
+// onUserDataFetchEvent func body
   void _onUserDataFetch(
       UserDataFetchEvent event, Emitter<UserDataState> emit) async {
     try {
