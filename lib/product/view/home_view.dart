@@ -62,28 +62,7 @@ class _HomeViewState extends State<HomeView> {
                   itemCount: state.users.length,
                   itemBuilder: (context, index) {
                     return Card(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                              height: context.dynamicWidth(.2),
-                              width: context.dynamicWidth(.1),
-                              child:
-                                  _userInfoAvatarWidget(state, index)),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: _userInfoColumn(state, index),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: _detialViewButton(state,index),
-                        )
-                      ],
-                    ));
+                        child: _userInfosRowContainerWidget(context, state, index));
                   });
             default:
               return const Center(
@@ -95,13 +74,38 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  Row _userInfosRowContainerWidget(BuildContext context, UserDataState state, int index) {
+    return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: SizedBox(
+                            height: context.dynamicWidth(.2),
+                            width: context.dynamicWidth(.1),
+                            child:
+                                _userInfoAvatarWidget(state, index)),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: _userInfoColumn(state, index),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: _detialViewButton(state,index),
+                      )
+                    ],
+                  );
+  }
+
   CircleAvatar _userInfoAvatarWidget(UserDataState state, int index) => CircleAvatar(backgroundImage: NetworkImage('${state.users[index].avatar}'));
 
   Column _userInfoColumn(UserDataState state, int index) {
     return Column(
                           children: [
                             Text(
-                                '${state.users[index].name} ${state.users[index].surname}'),
+                                '${state.users[index].name} ${state.users[index].surname}',style: Theme.of(context).textTheme.copyWith().headline6,),
                             Text(state.users[index].email ?? ''),
                             Text(state.users[index].phone ?? ''),
                           ],

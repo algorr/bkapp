@@ -26,7 +26,7 @@ class UserDetailView extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: _userInfoColumnWidget(),
+            child: _userInfoColumnWidget(context),
           ),
           Expanded(
             flex: 2,
@@ -36,7 +36,7 @@ class UserDetailView extends StatelessWidget {
             ),
           ),
           const Expanded(
-            flex: 5,
+            flex: 4,
             child: SizedBox(),
           )
         ],
@@ -46,10 +46,10 @@ class UserDetailView extends StatelessWidget {
 
   Text _userInfoTextWidget() => const Text(UserInfo.userInfo);
 
-  Column _userInfoColumnWidget() {
+  Column _userInfoColumnWidget(context) {
     return Column(
       children: [
-        Text('${user.name} ${user.surname}'),
+        Text('${user.name} ${user.surname}',style: Theme.of(context).textTheme.copyWith().headline6,),
         Text(user.email ?? ''),
         Text(user.phone ?? ''),
       ],
