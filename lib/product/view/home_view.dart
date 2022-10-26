@@ -72,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
                               height: context.dynamicWidth(.2),
                               width: context.dynamicWidth(.1),
                               child:
-                                  CircleAvatar(backgroundImage: NetworkImage('${state.users[index].avatar}'))),
+                                  _userInfoAvatarWidget(state, index)),
                         ),
                         Expanded(
                           flex: 4,
@@ -94,6 +94,8 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
+
+  CircleAvatar _userInfoAvatarWidget(UserDataState state, int index) => CircleAvatar(backgroundImage: NetworkImage('${state.users[index].avatar}'));
 
   Column _userInfoColumn(UserDataState state, int index) {
     return Column(
