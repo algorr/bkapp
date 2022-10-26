@@ -11,6 +11,7 @@ extension ValExtension on BuildContext {
   double get lowVal => dynamicWidth(.3);
   double get mediumVal => dynamicWidth(.2);
   double get highVal => dynamicWidth(.1);
+  double get tooHighVal => dynamicWidth(.05);
 }
 
 extension PaddingExtension on BuildContext {
