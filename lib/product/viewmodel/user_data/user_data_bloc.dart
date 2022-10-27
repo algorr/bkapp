@@ -12,12 +12,13 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   UserDataBloc(MockApiRepository repository)
       : _repository = repository,
         super(const UserDataState()) {
+
     //onUserDataFetchEvent func
     on<UserDataFetchEvent>(_onUserDataFetch);
   }
 
 // onUserDataFetchEvent func body
-  void _onUserDataFetch(
+  Future<void> _onUserDataFetch(
       UserDataFetchEvent event, Emitter<UserDataState> emit) async {
     try {
       if (state.status == FetchStatus.initial) {
